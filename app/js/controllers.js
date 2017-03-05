@@ -426,8 +426,8 @@ angular.module('myApp.controllers', ['myApp.i18n'])
                    error.type.substr(0, 17) == '2FA_CONFIRM_WAIT_') {
             error.waitTime = error.type.substr(17)
             error.type = '2FA_CONFIRM_WAIT_TIME'
-          }          
-          
+          }
+
           delete $scope.progress.enabled
         })
       })
@@ -1678,7 +1678,7 @@ angular.module('myApp.controllers', ['myApp.i18n'])
 
         if (Config.Mobile) {
           $scope.historyState.canEdit = AppMessagesManager.canEditMessage(messageID)
-          
+
           $modal.open({
             templateUrl: templateUrl('message_actions_modal'),
             windowClass: 'message_actions_modal_window',
@@ -2279,7 +2279,7 @@ angular.module('myApp.controllers', ['myApp.i18n'])
     $scope.$on('edit_selected', function (e, messageID) {
       setEditDraft(messageID, true)
     })
-    
+
     $scope.$on('ui_typing', onTyping)
 
     $scope.draftMessage = {

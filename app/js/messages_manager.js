@@ -882,6 +882,7 @@ angular.module('myApp.services')
     }
 
     function getMessage (messageID) {
+      console.log(messagesStorage[messageID])
       return messagesStorage[messageID] || {deleted: true}
     }
 
@@ -1401,6 +1402,7 @@ angular.module('myApp.services')
         pFlags: pFlags,
         date: tsNow(true) + ServerTimeManager.serverTimeOffset,
         message: text,
+        emotion: "happy",
         random_id: randomIDS,
         reply_to_msg_id: replyToMsgID,
         via_bot_id: options.viaBotID,
@@ -1427,6 +1429,7 @@ angular.module('myApp.services')
       }
 
       message.send = function () {
+        console.log(message.message)
         toggleError(false)
         var sentRequestOptions = {}
         if (pendingAfterMsgs[peerID]) {
@@ -3059,7 +3062,7 @@ angular.module('myApp.services')
             if (!message.pFlags.unread) {
               break
             }
-            // console.warn('read', messageID, message.pFlags.unread, message)
+            console.warn('read', messageID, message.pFlags.unread, message)
             if (message && message.pFlags.unread) {
               message.pFlags.unread = false
               if (messagesForHistory[messageID]) {
