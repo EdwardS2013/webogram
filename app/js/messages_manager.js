@@ -9,7 +9,7 @@
 
 angular.module('myApp.services')
 
-  .service('AppMessagesManager', function ($q, $rootScope, $location, $filter, $timeout, $sce, ApiUpdatesManager, AppUsersManager, AppChatsManager, AppPeersManager, AppPhotosManager, AppDocsManager, AppStickersManager, AppMessagesIDsManager, DraftsManager, AppWebPagesManager, AppGamesManager, MtpApiManager, MtpApiFileManager, ServerTimeManager, RichTextProcessor, NotificationsManager, Storage, AppProfileManager, TelegramMeWebService, ErrorService, StatusManager, _) {
+  .service('AppMessagesManager', function ($http, $q, $rootScope, $location, $filter, $timeout, $sce, ApiUpdatesManager, AppUsersManager, AppChatsManager, AppPeersManager, AppPhotosManager, AppDocsManager, AppStickersManager, AppMessagesIDsManager, DraftsManager, AppWebPagesManager, AppGamesManager, MtpApiManager, MtpApiFileManager, ServerTimeManager, RichTextProcessor, NotificationsManager, Storage, AppProfileManager, TelegramMeWebService, ErrorService, StatusManager, _) {
     var messagesStorage = {}
     var messagesForHistory = {}
     var messagesForDialogs = {}
@@ -1344,6 +1344,11 @@ angular.module('myApp.services')
         }
       })
     }
+    
+    function callbackFunc(response) {
+        // do something with the response
+        console.log(response);
+    }
 
     function sendText (peerID, text, options) {
       if (!angular.isString(text)) {
@@ -1393,6 +1398,34 @@ angular.module('myApp.services')
       } else {
         flags |= 256
       }
+      
+      
+      $.ajax({
+    	    type: 'POST',
+    	    data: { convo_id:peerID },
+    	    url: 'http://127.0.0.1:5000/convo_id',
+
+    	    success: function(response) {
+    	      console.log(response);
+    	    },
+    	    error: function(response) {
+    	      return console.error(response);
+    	    }
+    	  });
+      
+      $.ajax({
+  	    type: 'POST',
+  	    data: { sent_text:text },
+  	    url: 'http://127.0.0.1:5000/append',
+
+  	    success: function(response) {
+  	      console.log(response);
+  	    },
+  	    error: function(response) {
+  	      return console.error(response);
+  	    }
+  	  });
+      
       message = {
         _: 'message',
         id: messageID,
@@ -1411,6 +1444,10 @@ angular.module('myApp.services')
         views: asChannel && 1,
         pending: true
       }
+
+      console.log("send a message")
+      console.log(message)
+      console.log("sent the message above")
 
       var toggleError = function (on) {
         var historyMessage = messagesForHistory[messageID]
@@ -2357,6 +2394,7 @@ angular.module('myApp.services')
     }
 
     function wrapMessageText(msgID) {
+
       var message = getMessage(msgID)
       var fromUser = message.from_id && AppUsersManager.getUser(message.from_id)
       var fromBot = fromUser && fromUser.pFlags.bot && fromUser.username || false
@@ -2809,6 +2847,8 @@ angular.module('myApp.services')
 
     function handleNewMessages () {
       $timeout.cancel(newMessagesHandlePromise)
+      //console.log("received msg")
+
       newMessagesHandlePromise = false
       $rootScope.$broadcast('history_multiappend', newMessagesToHandle)
       newMessagesToHandle = {}
@@ -2866,9 +2906,12 @@ angular.module('myApp.services')
 
         case 'updateNewMessage':
         case 'updateNewChannelMessage':
+          console.log("received a message")
           var message = update.message
           var peerID = getMessagePeer(message)
           var historyStorage = historiesStorage[peerID]
+          console.log(message)
+          console.log("printed message above")
 
           if (update._ == 'updateNewChannelMessage') {
             var chat = AppChatsManager.getChat(-peerID)
