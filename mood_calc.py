@@ -2,12 +2,13 @@ from datetime import timedelta
 from flask import Flask, make_response, request, current_app
 from functools import update_wrapper
 from flask_cors import CORS, cross_origin
-
+from eval import sentimentAnalysis
 
 app = Flask(__name__)
 CORS(app)
 
-'''
+
+"""
 def crossdomain(origin=None, methods=None, headers=None,
                 max_age=21600, attach_to_all=True,
                 automatic_options=True):
@@ -48,7 +49,8 @@ def crossdomain(origin=None, methods=None, headers=None,
         f.provide_automatic_options = False
         return update_wrapper(wrapped_function, f)
     return decorator
-'''
+"""
+
 id_num = 0
 append = 0
 
@@ -66,4 +68,9 @@ def append_message():
     if request.method == 'POST':
         print(request.form)
         append = request.form['sent_text']
-        return "happy"
+        mood = sentimentAnalysis(append)
+        return mood
+
+def test(append):
+    mood = sentimentAnalysis(append)
+    return mood
