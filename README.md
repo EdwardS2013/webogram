@@ -3,7 +3,7 @@
 
 ## Moodgram - Telegram-based Sentiment Analysis Web Messenger
 
-Have you ever wanted to know if something that you just said could get you fired? Well, our tool, Moodgram, allows users to gauge the positivity of their messages, where green means positive and red means negative. It compares your message to hundreds of thousands of test cases, and through a machine learning algorithm, it is able to let the user know if their message will elicit a positive or negative response so that the user can learn from his mistakes in the future.
+Have you ever wanted to know if something that you just said could get you fired? Well, our tool, Moodgram, allows users to gauge the positivity of their messages, where green means positive and red means negative. It compares your message to hundreds of thousands of test cases, and through a machine learning algorithm, it is able to let the user know if their message will elicit a positive or negative response so that the user can learn from this feedback.
 
 For licensing information please refer to the original Telegram web app license file, contained in [LICENSE](LICENSE).
 The [README](README.md) of the original Telegram web app follows.
