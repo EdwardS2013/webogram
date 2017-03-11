@@ -1,6 +1,14 @@
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 [![Stories in Ready](https://badge.waffle.io/zhukov/webogram.png?label=ready&title=Ready)](https://waffle.io/zhukov/webogram)
 
+## Moodgram - Telegram-based Sentiment Analysis Web Messenger
+
+Have you ever wanted to know if something that you just said could get you fired? Well, our tool, Moodgram, allows users to gauge the positivity of their messages, where green means positive and red means negative. It compares your message to hundreds of thousands of test cases, and through a machine learning algorithm, it is able to let the user know if their message will elicit a positive or negative response so that the user can learn from this feedback.
+
+For licensing information please refer to the original Telegram web app license file, contained in [LICENSE](LICENSE).
+The [README](README.md) of the original Telegram web app follows.
+
+
 ## [Webogram](https://web.telegram.org) — Telegram Web App
 
 Telegram offers great [apps for mobile communication](https://www.telegram.org). It is based on the [MTProto protocol](https://core.telegram.org/mtproto) and has an [Open API](https://core.telegram.org/api). I personally like Telegram for its speed and cloud-support (that makes a web app possible, unlike in the case of WA and others).

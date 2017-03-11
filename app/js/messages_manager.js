@@ -18,6 +18,7 @@ angular.module('myApp.services')
     var pendingByRandomID = {}
     var pendingByMessageID = {}
     var pendingAfterMsgs = {}
+    var prevMessageEmotion = ""
     var sendFilePromise = $q.when()
     var tempID = -1
 
@@ -882,6 +883,7 @@ angular.module('myApp.services')
     }
 
     function getMessage (messageID) {
+      console.log(messagesStorage[messageID])
       return messagesStorage[messageID] || {deleted: true}
     }
 
@@ -1343,7 +1345,7 @@ angular.module('myApp.services')
         }
       })
     }
-    
+
     function callbackFunc(response) {
         // do something with the response
         console.log(response);
@@ -1397,8 +1399,8 @@ angular.module('myApp.services')
       } else {
         flags |= 256
       }
-      
-      
+
+
       $.ajax({
     	    type: 'POST',
     	    data: { convo_id:peerID },
@@ -1411,7 +1413,7 @@ angular.module('myApp.services')
     	      return console.error(response);
     	    }
     	  });
-      
+
       $.ajax({
   	    type: 'POST',
   	    data: { sent_text:text },
@@ -1424,7 +1426,7 @@ angular.module('myApp.services')
   	      return console.error(response);
   	    }
   	  });
-      
+
       message = {
         _: 'message',
         id: messageID,
@@ -1434,7 +1436,6 @@ angular.module('myApp.services')
         pFlags: pFlags,
         date: tsNow(true) + ServerTimeManager.serverTimeOffset,
         message: text,
-        emotion: "happy",
         random_id: randomIDS,
         reply_to_msg_id: replyToMsgID,
         via_bot_id: options.viaBotID,
@@ -1465,6 +1466,7 @@ angular.module('myApp.services')
       }
 
       message.send = function () {
+        console.log(message.message)
         toggleError(false)
         var sentRequestOptions = {}
         if (pendingAfterMsgs[peerID]) {
@@ -2908,6 +2910,35 @@ angular.module('myApp.services')
           var message = update.message
           var peerID = getMessagePeer(message)
           var historyStorage = historiesStorage[peerID]
+          var messageEmotion = ""
+
+          if(prevMessageEmotion == "") {
+              prevMessageEmotion = "green"
+          } else if(prevMessageEmotion == "happy") {
+              prevMessageEmotion = "green"
+          } else {
+              prevMessageEmotion = "blue"
+          }
+
+          message.previousEmotion = prevMessageEmotion;
+
+          $.ajax({
+      	    type: 'POST',
+      	    data: { sent_text:message.message },
+      	    url: 'http://127.0.0.1:5000/append',
+            async: false,
+
+      	    success: function(response) {
+      	      console.log(response);
+              messageEmotion = response
+      	    },
+      	    error: function(response) {
+      	      return console.error(response);
+      	    }
+      	  });
+
+          message.emotion = messageEmotion
+          prevMessageEmotion = messageEmotion
           console.log(message)
           console.log("printed message above")
 
@@ -3103,7 +3134,7 @@ angular.module('myApp.services')
             if (!message.pFlags.unread) {
               break
             }
-            // console.warn('read', messageID, message.pFlags.unread, message)
+            console.warn('read', messageID, message.pFlags.unread, message)
             if (message && message.pFlags.unread) {
               message.pFlags.unread = false
               if (messagesForHistory[messageID]) {

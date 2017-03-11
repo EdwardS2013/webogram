@@ -1,4 +1,9 @@
-<div class="im_message_outer_wrap hasselect" ng-click="toggleMessage(historyMessage.mid, $event)">
+<div class="im_divider" style="height:10px" ng-style="{background: historyMessage.previousEmotion,
+background: -webkit-linear-gradient(historyMessage.previousEmotion, historyMessage.emotion),
+background: -o-linear-gradient(historyMessage.previousEmotion, historyMessage.emotion),
+background: -moz-linear-gradient(historyMessage.previousEmotion, historyMessage.emotion),
+background: linear-gradient(historyMessage.previousEmotion, historyMessage.emotion)}"> </div>
+<div class="im_message_outer_wrap hasselect" ng-class="historyMessage.emotion" ng-click="toggleMessage(historyMessage.mid, $event)">
 
   <div class="im_message_wrap clearfix" ng-switch="::historyMessage._ == 'messageService'">
 
@@ -78,4 +83,3 @@
   </div>
 
 </div>
-
