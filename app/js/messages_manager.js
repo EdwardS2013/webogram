@@ -2913,11 +2913,11 @@ angular.module('myApp.services')
           var messageEmotion = ""
 
           if(prevMessageEmotion == "") {
-              prevMessageEmotion = "green"
-          } else if(prevMessageEmotion == "happy") {
-              prevMessageEmotion = "green"
+              prevMessageEmotion = "#90EE90"
+          } else if(prevMessageEmotion == "Happy") {
+              prevMessageEmotion = "#90EE90"
           } else {
-              prevMessageEmotion = "blue"
+              prevMessageEmotion = "#CD5C5C"
           }
 
           message.previousEmotion = prevMessageEmotion;
@@ -2937,7 +2937,12 @@ angular.module('myApp.services')
       	    }
       	  });
 
-          message.emotion = messageEmotion
+          if(messageEmotion == "Happy") {
+              message.emotion = "#90EE90"
+          } else {
+              message.emotion = "#CD5C5C"
+          }
+
           prevMessageEmotion = messageEmotion
           console.log(message)
           console.log("printed message above")
